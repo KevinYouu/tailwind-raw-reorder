@@ -2,7 +2,6 @@
 /**
  * @typedef {{
  * getClassOrder?: (classes: string[])=>[string, number|null][]
- * tailwindConfig: any,
  * layerOrder: any,
  * }} Context
  */
@@ -22,49 +21,72 @@ export function bigSign(bigIntValue) {
   return  a - b;
 }
 
-/**
- * @param {Context} context
- * @param {string} selector
- */
-function prefixCandidate(context, selector) {
-  let prefix = context.tailwindConfig.prefix
-  return typeof prefix === 'function' ? prefix(selector) : prefix + selector
-}
 
-// Polyfill for older Tailwind CSS versions
+// Tailwind 4 compatible class ordering
 /**
  * @param {string[]} classes
  * @param {{env: Env}} options
  */
-function getClassOrderPolyfill(classes, { env }) {
-  // A list of utilities that are used by certain Tailwind CSS utilities but
-  // that don't exist on their own. This will result in them "not existing" and
-  // sorting could be weird since you still require them in order to make the
-  // host utitlies work properly. (Thanks Biology)
-  let parasiteUtilities = new Set([
-    prefixCandidate(env.context, 'group'),
-    prefixCandidate(env.context, 'peer'),
-  ])
+function getClassOrderTailwind4(classes, { env }) {
+  // For Tailwind 4, we use a simpler approach that works with the new class ordering
+  // This provides a reasonable default ordering for common Tailwind classes
+
+  // Define a simple ordering for common Tailwind 4 classes
+  const classOrder = [
+    // Layout
+    'container', 'fixed', 'absolute', 'relative', 'static', 'sticky',
+    // Display & positioning
+    'block', 'inline-block', 'inline', 'flex', 'grid', 'hidden',
+    'justify-center', 'justify-start', 'justify-end', 'items-center', 'items-start', 'items-end',
+    // Sizing
+    'w', 'h', 'min-w', 'min-h', 'max-w', 'max-h',
+    // Spacing
+    'm', 'p', 'mx', 'my', 'px', 'py', 'mt', 'mr', 'mb', 'ml', 'pt', 'pr', 'pb', 'pl',
+    // Colors & backgrounds
+    'bg', 'text', 'border',
+    // Typography
+    'text', 'font', 'leading', 'tracking',
+    // Effects
+    'shadow', 'opacity', 'rounded',
+    // Transitions & animations
+    'transition', 'transform', 'duration', 'ease',
+  ];
 
   /** @type {[string, number][]} */
   let classNamesWithOrder = [];
 
   for (let className of classes) {
-    let rules = env
-    .generateRules(new Set([className]), env.context);
-    let order = rules.sort(([a], [z]) => bigSign(z - a))[0]?.[0] ?? null
+    let order = null;
 
-    if (order === null && parasiteUtilities.has(className)) {
-      // This will make sure that it is at the very beginning of the
-      // `components` layer which technically means 'before any
-      // components'.
-      order = env.context.layerOrder.components
+    // Try to determine order based on class prefix
+    for (let i = 0; i < classOrder.length; i++) {
+      if (className.startsWith(classOrder[i])) {
+        order = i;
+        break;
+      }
     }
 
-    classNamesWithOrder.push([className, order])
+    // If no specific order found, try to use Tailwind's internal ordering
+    if (order === null && env.context.getClassOrder) {
+      const tailwindOrder = env.context.getClassOrder([className])[0];
+      order = tailwindOrder[1];
+    }
+
+    // If still no order, use the generateRules approach as fallback
+    if (order === null) {
+      try {
+        let rules = env.generateRules(new Set([className]), env.context);
+        order = rules.sort(([a], [z]) => bigSign(z - a))[0]?.[0] ?? null;
+      } catch (e) {
+        // If all else fails, put unknown classes at the beginning
+        order = -1;
+      }
+    }
+
+    classNamesWithOrder.push([className, order]);
   }
 
-  return classNamesWithOrder
+  return classNamesWithOrder;
 }
 
 /**
@@ -111,13 +133,11 @@ export function sortClasses(
 export function sortClassList(classList, { env }) {
   let classNamesWithOrder = env.context.getClassOrder
     ? env.context.getClassOrder(classList)
-    : getClassOrderPolyfill(classList, { env })
+    : getClassOrderTailwind4(classList, { env })
 
   return classNamesWithOrder
     .sort(([, a], [, z]) => {
       if (a === z) return 0
-      // if (a === null) return options.unknownClassPosition === 'start' ? -1 : 1
-      // if (z === null) return options.unknownClassPosition === 'start' ? 1 : -1
       if (a === null) return -1
       if (z === null) return 1
       return bigSign(a - z)

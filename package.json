@@ -1,7 +1,7 @@
 {
     "name": "tailwind-raw-reorder",
     "displayName": "Tailwind Raw Reorder",
-    "description": "An opinionated class sorter for Tailwind CSS",
+    "description": "An opinionated class sorter for Tailwind CSS, Support Tailwind CSS v2, v3 and v4.",
     "keywords": [
         "tailwind",
         "tailwindcss",
@@ -14,11 +14,11 @@
         "color": "#f1f5f8"
     },
     "icon": "tailwind-raw-reorder-icon.gif",
-    "version": "3.2.0",
-    "publisher": "Trapfether",
+    "version": "3.3.0",
+    "publisher": "KevinYouu",
     "license": "MIT",
-    "author": "Andrew Trefethen <andrew.l.trefethen@gmail.com>",
-    "repository": "https://github.com/Trapfether/tailwind-raw-reorder",
+    "author": "KevinYouu <zdy295@gamil.com>",
+    "repository": "https://github.com/KevinYouu/tailwind-raw-reorder",
     "engines": {
         "vscode": "^1.32.0"
     },
@@ -26,7 +26,26 @@
         "Other"
     ],
     "activationEvents": [
-        "workspaceContains:**/tailwind.config.*"
+        "onCommand:tailwind-raw-reorder.sortTailwindClasses",
+        "onCommand:tailwind-raw-reorder.sortTailwindClassesOnWorkspace",
+        "onCommand:tailwind-raw-reorder.sortTailwindClassesOnSelection",
+        "onLanguage:html",
+        "onLanguage:javascript",
+        "onLanguage:javascriptreact",
+        "onLanguage:typescript",
+        "onLanguage:typescriptreact",
+        "onLanguage:vue",
+        "onLanguage:svelte",
+        "onLanguage:css",
+        "onLanguage:scss",
+        "onLanguage:less",
+        "onLanguage:postcss",
+        "onLanguage:blade",
+        "onLanguage:erb",
+        "onLanguage:ejs",
+        "onLanguage:haml",
+        "onLanguage:pug",
+        "onLanguage:twig"
     ],
     "main": "./dist/index.js",
     "contributes": {
@@ -112,24 +131,12 @@
                         "description": "An object with language IDs as keys and their values determining the regex to search for Tailwind CSS classes.",
                         "scope": "window"
                     },
-                    "tailwind-raw-reorder.IgnoreConfigNotFound": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "A flag that controls whether or not to ignore 'Tailwind Raw Reorder: Tailwind config not found' Error Message.",
-                        "scope":"window"
-                    },
                     "tailwind-raw-reorder.runOnSave": {
                         "type": "boolean",
                         "default": true,
                         "description": "A flag that controls whether or not Tailwind Raw Reorder will sort your Tailwind CSS classes on save.",
                         "scope": "window"
-                    },
-										"tailwind-raw-reorder.tailwindConfigPath": {
-												"type": ["string", "null"],
-												"default": null,
-												"description": "The path to your tailwind.config.js file. This is used to determine the order of your classes.",
-												"scope": "window"
-										}
+                    }
                 }
             }
         ]

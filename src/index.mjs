@@ -7,8 +7,6 @@ import { spawn } from 'child_process';
 import { rustyWindPath } from 'rustywind';
 import { getTailwindConfig } from './config.mjs';
 import { sortClasses } from './sorting.mjs';
-// import resolve from 'path' and rename it to resolvePath
-import { resolve as resolvePath, isAbsolute as isPathAbsolute } from 'path';
 
 /**
  * @typedef {import('vscode').ExtensionContext} ExtensionContext
@@ -18,38 +16,22 @@ import { resolve as resolvePath, isAbsolute as isPathAbsolute } from 'path';
  * @typedef {string | string[] | { regex?: string | string[]; separator?: string; replacement?: string } | undefined} LangConfig
  */
 
-/**
- * @param {import('vscode').WorkspaceFolder} workspaceFolder
- * @param {string} path
- */
-function expandRelativePath(workspaceFolder, path) {
-	return isPathAbsolute(path) ? path : resolvePath(workspaceFolder.uri.fsPath, path);
-}
-
 const config = workspace.getConfiguration();
 /** @type {{ [key: string]: LangConfig | LangConfig[] }} */
 const langConfig =
   config.get('tailwind-raw-reorder.classRegex') || {};
-/** @type {{ string: boolean } | undefined} */
-const IgnoreConfigNotFound =
-  config.get('tailwind-raw-reorder.IgnoreConfigNotFound');
 /** @type {import('vscode').WorkspaceFolder | undefined} */
 const workspaceFolder = (workspace.workspaceFolders || [])[0];
-/** @type {string | undefined} */
-const rawTailwindConfigPath = config.get('tailwind-raw-reorder.tailwindConfigPath') ?? undefined;
-const tailwindConfigPath =
-(workspaceFolder && rawTailwindConfigPath && expandRelativePath(workspaceFolder, rawTailwindConfigPath));
 const outputLogChannel = window.createOutputChannel('Tailwind Raw Reorder');
 
 /**
  * @param {ExtensionContext} context
  */
 export function activate(context) {
-	if (!workspaceFolder) { // if we don't have a workspace folder, we should not run the extension
-		// log that no workspace was found
-		const message = 'No workspace found';
-		outputLogChannel.appendLine(message);
-		return;
+	// Extension now works with or without workspace folders
+	// This allows it to be used when editing single files
+	if (!workspaceFolder) {
+		outputLogChannel.appendLine('Extension activated without workspace folder');
 	}
 
   let disposable = commands.registerTextEditorCommand(
@@ -59,30 +41,13 @@ export function activate(context) {
       const editorLangId = editor.document.languageId;
       const editorFilePath = editor.document.fileName;
 			const editorWorkspace = workspace.getWorkspaceFolder(editor.document.uri);
-			if (!editorWorkspace) {
-				// log that no workspace was found for file
-				const message = `No workspace found for file: ${editorFilePath}`;
-				outputLogChannel.appendLine(message);
-				return;
-			}
 
       const matchers = buildMatchers(
         langConfig[editorLangId] || langConfig['html']
       );
 
-      const tailwindConfig = getTailwindConfig({
-        filepath: editorFilePath,
-				tailwindConfig: tailwindConfigPath
-      });
-
-      if (!tailwindConfig) {
-        if (!IgnoreConfigNotFound) {
-          window.showErrorMessage(
-            'Tailwind Raw Reorder: Tailwind config not found'
-          );
-        }
-        return;
-      }
+      // For Tailwind 4, we don't need to check for config files
+      const tailwindConfig = getTailwindConfig();
 
       for (const matcher of matchers) {
         getTextMatch(matcher.regex, editorText, (text, startPosition) => {
@@ -110,14 +75,14 @@ export function activate(context) {
   let runOnProject = commands.registerCommand(
     'tailwind-raw-reorder.sortTailwindClassesOnWorkspace',
     () => {
-      let workspaceFolder = workspace.workspaceFolders || [];
-      if (workspaceFolder[0]) {
+      let workspaceFolders = workspace.workspaceFolders || [];
+      if (workspaceFolders.length > 0) {
         window.showInformationMessage(
-          `Running Tailwind Raw Reorder on: ${workspaceFolder[0].uri.fsPath}`
+          `Running Tailwind Raw Reorder on: ${workspaceFolders[0].uri.fsPath}`
         );
 
         let rustyWindArgs = [
-          workspaceFolder[0].uri.fsPath,
+          workspaceFolders[0].uri.fsPath,
           '--write',
         ].filter((arg) => arg !== '');
 
@@ -137,6 +102,10 @@ export function activate(context) {
             window.showErrorMessage(`Tailwind Raw Reorder error: ${data.toString()}`);
           }
         });
+      } else {
+        window.showInformationMessage(
+          'No workspace folder found. Please open a folder to run workspace sorting.'
+        );
       }
     }
   );
@@ -149,25 +118,13 @@ export function activate(context) {
         let selection = editor.selection;
         let editorText = editor.document.getText(selection);
         let editorLangId = editor.document.languageId;
-        let editorFilePath = editor.document.fileName;
 
         const matchers = buildMatchers(
           langConfig[editorLangId] || langConfig['html']
         );
 
-        const tailwindConfig = getTailwindConfig({
-          filepath: editorFilePath,
-					tailwindConfig: tailwindConfigPath
-        });
-
-        if (!tailwindConfig) {
-          if (!IgnoreConfigNotFound) {
-            window.showErrorMessage(
-              'Tailwind Raw Reorder: Tailwind config not found'
-            );
-          };
-          return;
-        }
+        // For Tailwind 4, we don't need to check for config files
+        const tailwindConfig = getTailwindConfig();
 
         for (const matcher of matchers) {
           const seperator = matcher.separator;
