@@ -4,7 +4,15 @@
 
 Tailwind Raw Reorder is an opinionated Tailwind CSS class sorter for Visual Studio Code. It enforces consistent ordering of classes by parsing your code and reprinting class tags to follow a given order.
 
-> Tailwind Raw Reorder runs on save, will remove duplicate classes and can even sort entire workspaces.
+> Tailwind Raw Reorder runs on save, will remove duplicate classes and can even sort entire workspaces. **Now works with Tailwind CSS v4+ without requiring configuration files!**
+
+## ✨ New in v3.3.0
+
+- 🚀 **Tailwind CSS v4 Support** - Works without `tailwind.config` files
+- ⚡ **Performance Optimized** - No more startup performance warnings
+- 📁 **Enhanced Workspace Support** - Works with single files and workspaces
+- 🎯 **Smart Activation** - Only activates when needed
+- 🔧 **Simplified Configuration** - Removed complex config file dependencies
 
 ---
 
@@ -14,7 +22,20 @@ Tailwind Raw Reorder is an opinionated Tailwind CSS class sorter for Visual Stud
 
 ## Usage
 
-You can install Tailwind Raw Reorder via the VS Code Marketplace, or package it yourself using [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension). Tailwind Raw Reorder works globally once installed and will run on save if a `tailwind.config.js` file is present within your working directory.
+You can install Tailwind Raw Reorder via the VS Code Marketplace, or package it yourself using [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension). Tailwind Raw Reorder works globally once installed and will run on save automatically.
+
+### 🎯 Supported File Types
+
+- **Web Frontend**: HTML, JavaScript, TypeScript, JSX, TSX, Vue, Svelte
+- **CSS**: CSS, SCSS, Less, PostCSS
+- **Template Engines**: PHP, Blade, ERB, EJS, Haml, Pug, Twig
+
+### 🚀 Quick Start
+
+1. Install the extension from the VS Code Marketplace
+2. Open a file with Tailwind CSS classes
+3. The extension will automatically sort classes on save
+4. Or use keyboard shortcuts to sort manually
 
 You can also trigger Tailwind Raw Reorder by:
 
@@ -127,23 +148,22 @@ Good example value: `valueMatch w-64 h-full bg-blue-400 relative`
 
 <hr>
 
-### `tailwind-raw-reorder.IgnoreConfigNotFound`:
-
-Tailwind Raw Reorder will show an error message by default, `Tailwind Raw Reorder: Tailwind config not found` if `tailwind.config.*` is missing. This can be toggled on to hide and off to show the error message.
-
-`"tailwind-raw-reorder.IgnoreConfigNotFound": true`
-
 ### `tailwind-raw-reorder.runOnSave`:
 
-Tailwind Raw Reorder will run on save by default (if a `tailwind.config.*` file is present within your working directory). This can be toggled on or off.
+Tailwind Raw Reorder will run on save by default. This can be toggled on or off.
 
 `"tailwind-raw-reorder.runOnSave": false`
 
-### `tailwind-raw-reorder.tailwindConfigPath`:
+## 🔄 Migration from v3.2.x
 
-Tailwind Raw Reorder will look for a `tailwind.config.*` file within your working directory by default. This can be customized to look for a `tailwind.config.*` file in a different location. You can use a relative path from the workspace root or an absolute path. You will need to reload the window after changing this setting.
+If you're upgrading from version 3.2.x or earlier:
 
-`"tailwind-raw-reorder.tailwindConfigPath": "path/to/tailwind.config.js"`
+1. **No Configuration Required** - The extension now works without `tailwind.config` files
+2. **Removed Settings** - The following settings have been removed:
+   - `tailwind-raw-reorder.IgnoreConfigNotFound`
+   - `tailwind-raw-reorder.tailwindConfigPath`
+3. **Better Performance** - Extension only activates when needed
+4. **Broader Support** - Works with more file types out of the box
 
 ## Contributing
 
@@ -178,6 +198,16 @@ Support this project with your organization. Your logo will show up here with a 
 <a href="https://opencollective.com/headwind/organization/7/website"><img src="https://opencollective.com/headwind/organization/7/avatar.svg"></a>
 <a href="https://opencollective.com/headwind/organization/8/website"><img src="https://opencollective.com/headwind/organization/8/avatar.svg"></a>
 <a href="https://opencollective.com/headwind/organization/9/website"><img src="https://opencollective.com/headwind/organization/9/avatar.svg"></a> -->
+
+## 🌟 Features
+
+- ✨ **Zero Configuration** - Works out of the box with Tailwind CSS v4+
+- ⚡ **High Performance** - Smart activation prevents startup delays
+- 🎯 **Precision Sorting** - Consistent class ordering based on Tailwind's logic
+- 🔄 **Automatic on Save** - Sort classes as you work
+- 📁 **Workspace Support** - Sort entire projects or individual files
+- 🎨 **Multi-language Support** - Works with HTML, JSX, Vue, Svelte, PHP, and more
+- 🛠️ **Customizable** - Configure regex patterns for your specific needs
 
 ### Forked from [heybourn/headwind]
 
