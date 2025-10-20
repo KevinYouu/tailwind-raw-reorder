@@ -1,6 +1,6 @@
 {
     "name": "tailwind-raw-reorder-tw4",
-    "displayName": "Tailwind Raw Reorder",
+    "displayName": "Tailwind Raw Reorder (v4)",
     "description": "An opinionated class sorter for Tailwind CSS, Support Tailwind CSS v2, v3 and v4.",
     "keywords": [
         "tailwind",
