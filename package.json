@@ -14,7 +14,7 @@
         "color": "#f1f5f8"
     },
     "icon": "tailwind-raw-reorder-icon.gif",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "publisher": "KevinYouu",
     "license": "MIT",
     "author": "KevinYouu <zdy295@gamil.com>",
@@ -26,9 +26,6 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:tailwind-raw-reorder.sortTailwindClasses",
-        "onCommand:tailwind-raw-reorder.sortTailwindClassesOnWorkspace",
-        "onCommand:tailwind-raw-reorder.sortTailwindClassesOnSelection",
         "onLanguage:html",
         "onLanguage:javascript",
         "onLanguage:javascriptreact",
@@ -87,45 +84,49 @@
                                 "\\bclass\\s*=\\s*[\\\"\\']([\\._a-zA-Z0-9\\s\\-\\:\\/]+)[\\\"\\']"
                             ],
                             "html": [
-                                [
-                                    "\\sclass=(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
-                                ]
+                                "\\sclass=(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
+                                "[\"'`]([^]+)"
                             ],
                             "css": "\\B@apply\\s+([\\._a-zA-Z0-9\\s\\-\\:\\/]+);",
                             "javascript": [
                                 [
-                                    "((?:class(?:Name)?|tw)\\s*=\\s*([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
-                                    "(?:class(?:Name)?|tw)\\s*=\\s*(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
+                                    "[\"'`]([^\"'`]+)[\"'`]"
                                 ]
                             ],
                             "javascriptreact": [
                                 [
-                                    "((?:class(?:Name)?|tw)\\s*=\\s*{?([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
-                                    "(?:class(?:Name)?|tw)\\s*=\\s*{?(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{\\s*(`[^`]*(?:\\$\\{[^}]*\\}[^`]*)*`)",
+                                    "`([^`]*(?:\\$\\{[^}]*\\}[^`]*)*)`"
+                                ],
+                                [
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{?(([\"'])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
+                                    "[\"']([^\"']+)[\"']"
                                 ]
                             ],
                             "typescript": [
                                 [
-                                    "((?:class(?:Name)?|tw)\\s*=\\s*([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
-                                    "(?:class(?:Name)?|tw)\\s*=\\s*(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{\\s*(`[^`]*(?:\\$\\{[^}]*\\}[^`]*)*`)",
+                                    "`([^`]*(?:\\$\\{[^}]*\\}[^`]*)*)`"
+                                ],
+                                [
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{?(([\"'])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
+                                    "[\"']([^\"']+)[\"']"
                                 ]
                             ],
                             "typescriptreact": [
                                 [
-                                    "((?:class(?:Name)?|tw)\\s*=\\s*{?([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
-                                    "(?:class(?:Name)?|tw)\\s*=\\s*{?(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{\\s*(`[^`]*(?:\\$\\{[^}]*\\}[^`]*)*`)",
+                                    "`([^`]*(?:\\$\\{[^}]*\\}[^`]*)*)`"
+                                ],
+                                [
+                                    "(?:class(?:Name)?|tw)\\s*=\\s*\\{?(([\"'])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>]\\2)",
+                                    "[\"']([^\"']+)[\"']"
                                 ]
                             ],
                             "php": [
-                                [
-                                    "\\sclass=(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
-                                    "[\"'`]([^]+)"
-                                ]
+                                "\\sclass=(([\"'`])(?:(?:[^{}<>](?!\\2))|\\\\\\2)+[^{}<>])\\2",
+                                "[\"'`]([^]+)"
                             ]
                         },
                         "description": "An object with language IDs as keys and their values determining the regex to search for Tailwind CSS classes.",
@@ -147,24 +148,19 @@
         "_esbuild": "node build.mjs",
         "prebuild": "npm run _pre",
         "build": "npm run _esbuild -- --minify",
-        "test": "mocha",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "package": "vsce package"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.149",
-        "@types/node": "6.0.40",
+        "@types/node": "^20.0.0",
         "@types/vscode": "1.32.0",
-        "clear-module": "^4.1.2",
         "cpy-cli": "^5.0.0",
         "esbuild": "^0.19.4",
-        "escalade": "^3.1.1",
-        "eslint": "^8.51.0",
-        "eslint-config-google": "^0.14.0",
-        "mocha": "^10.2.0",
-        "resolve-from": "^5.0.0",
         "rimraf": "^5.0.5",
         "tailwindcss": "^3.3.3",
-        "typescript": "^3.5.1"
+        "typescript": "^5.3.0",
+        "vitest": "^1.0.0"
     },
     "dependencies": {
         "rustywind": "^0.7.1"
