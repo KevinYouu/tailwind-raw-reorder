@@ -118,10 +118,14 @@ function sortExpressionClasses(
 	}
 ): string {
 	// Match all quoted strings in the expression
-	// This regex handles single, double, and backtick quotes
+	// We need to match each quote type separately to avoid cross-matching
+	// Pattern: single quotes, double quotes, or backticks
 	return expression.replace(
-		/(['"`])((?:[^\\]|\\.)*)?\1/g,
-		(match, quote, content) => {
+		/'([^']*)'|"([^"]*)"|`([^`]*)`/g,
+		(match, singleContent, doubleContent, backContent) => {
+			const content = singleContent || doubleContent || backContent;
+			const quote = match[0];
+			
 			if (!content) return match;
 
 			// Check if this looks like Tailwind classes
@@ -134,17 +138,18 @@ function sortExpressionClasses(
 					/[a-z]+:/i.test(content) ||
 					/\[.*\]/.test(content));
 
-			if (isTailwindClasses) {
-				try {
-					const sorted = sortClasses(content, options);
-					return `${quote}${sorted}${quote}`;
-				} catch (e) {
-					// If sorting fails, return original
-					return match;
-				}
+		if (isTailwindClasses) {
+			try {
+				// Trim leading/trailing whitespace before sorting
+				const trimmedContent = content.trim();
+				const sorted = sortClasses(trimmedContent, options);
+				// console.log(`[sortExpressionClasses] "${content}" -> "${sorted}"`);
+				return `${quote}${sorted}${quote}`;
+			} catch (e) {
+				// If sorting fails, return original
+				return match;
 			}
-
-			return match;
+		}			return match;
 		}
 	);
 }
