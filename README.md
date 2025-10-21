@@ -6,8 +6,10 @@ Tailwind Raw Reorder is an opinionated Tailwind CSS class sorter for Visual Stud
 
 > Tailwind Raw Reorder runs on save, will remove duplicate classes and can even sort entire workspaces. **Now works with Tailwind CSS v4+ without requiring configuration files!**
 
-## ✨ New in v3.3.0
+## ✨ New in v4.0
 
+- 🛠️ **TypeScript Migration** - Core codebase migrated to TypeScript for better type safety and maintainability
+- 🧪 **Enhanced Test Coverage** - Comprehensive test suite with real-world user scenarios
 - 🚀 **Tailwind CSS v4 Support** - Works without `tailwind.config` files
 - ⚡ **Performance Optimized** - No more startup performance warnings
 - 📁 **Enhanced Workspace Support** - Works with single files and workspaces
@@ -165,6 +167,36 @@ If you're upgrading from version 3.2.x or earlier:
 3. **Better Performance** - Extension only activates when needed
 4. **Broader Support** - Works with more file types out of the box
 
+## 🛠️ Technical Improvements
+
+### TypeScript Migration (v4.0)
+
+The codebase has been completely migrated from JavaScript to TypeScript, providing:
+
+- **Type Safety**: Compile-time error detection and improved code reliability
+- **Better Maintainability**: Enhanced IDE support with IntelliSense and auto-completion
+- **Improved Code Quality**: Better refactoring capabilities and code documentation
+- **Enhanced Testing**: Type-safe test cases with better coverage
+
+### Enhanced Test Suite
+
+Comprehensive test coverage including:
+
+- **User Issue Tests**: Real-world scenarios reported by users
+- **Whitespace Handling**: Robust testing of whitespace and edge cases
+- **Complex Expressions**: Advanced CSS expression parsing and sorting
+- **VSCode Simulation**: Tests that simulate actual VSCode extension behavior
+- **Edge Cases**: Comprehensive coverage of unusual class patterns
+
+## 🧪 Development
+
+The project now uses a modern development stack:
+
+- **TypeScript** for type-safe development
+- **Vitest** for fast and reliable testing
+- **ESM modules** for modern JavaScript support
+- **Automated CI/CD** with comprehensive test reporting
+
 ## Contributing
 
 Tailwind Raw Reorder is open-source and contributions are always welcome. If you're interested in submitting a pull request, please take a moment to review [CONTRIBUTING.md](.github/CONTRIBUTING.md).
@@ -202,12 +234,14 @@ Support this project with your organization. Your logo will show up here with a 
 ## 🌟 Features
 
 - ✨ **Zero Configuration** - Works out of the box with Tailwind CSS v4+
+- 🛠️ **TypeScript-Powered** - Type-safe codebase for reliability and maintainability
 - ⚡ **High Performance** - Smart activation prevents startup delays
 - 🎯 **Precision Sorting** - Consistent class ordering based on Tailwind's logic
 - 🔄 **Automatic on Save** - Sort classes as you work
 - 📁 **Workspace Support** - Sort entire projects or individual files
 - 🎨 **Multi-language Support** - Works with HTML, JSX, Vue, Svelte, PHP, and more
 - 🛠️ **Customizable** - Configure regex patterns for your specific needs
+- 🧪 **Thoroughly Tested** - Comprehensive test suite covering real-world scenarios
 
 ### Forked from [heybourn/headwind]
 
