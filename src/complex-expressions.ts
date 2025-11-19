@@ -23,6 +23,7 @@ export function sortTemplateClasses(
 
 	let result = '';
 	let currentIndex = 0;
+	let isFirstSegment = true; // Track if this is the first segment
 
 	// Parse the template string character by character to handle nested expressions
 	while (currentIndex < templateString.length) {
@@ -33,25 +34,61 @@ export function sortTemplateClasses(
 			// No more expressions, sort the remaining static text
 			const remaining = templateString.substring(currentIndex);
 			if (remaining.trim()) {
-				// Preserve leading/trailing spaces
+				// Preserve leading/trailing whitespace structure, but normalize to single space
 				const leadingSpace = remaining.match(/^\s*/)?.[0] || '';
 				const trailingSpace = remaining.match(/\s*$/)?.[0] || '';
 				const trimmed = remaining.trim();
-				result += leadingSpace + sortClasses(trimmed, options) + trailingSpace;
-			} else {
+				const sortedClasses = sortClasses(trimmed, options);
+
+				// Preserve newlines and indentation, but normalize horizontal spaces
+				// Don't add leading space if this is the first segment
+				const normalizedLeading = isFirstSegment
+					? ''
+					: leadingSpace.includes('\n')
+					? leadingSpace
+					: leadingSpace
+					? ' '
+					: '';
+				// Don't add trailing space at the very end of the string (unless it's a newline)
+				const normalizedTrailing = trailingSpace.includes('\n')
+					? trailingSpace
+					: '';
+
+				result += normalizedLeading + sortedClasses + normalizedTrailing;
+			} else if (remaining && remaining.includes('\n')) {
+				// If remaining is only whitespace but contains newlines, preserve them
 				result += remaining;
 			}
+			// else: remaining is only horizontal whitespace, discard it
 			break;
 		}
 
 		// Sort the static text before the expression
 		const staticText = templateString.substring(currentIndex, exprStart);
 		if (staticText.trim()) {
-			// Preserve leading/trailing spaces
+			// Preserve leading/trailing whitespace structure, but normalize to single space
 			const leadingSpace = staticText.match(/^\s*/)?.[0] || '';
 			const trailingSpace = staticText.match(/\s*$/)?.[0] || '';
 			const trimmed = staticText.trim();
-			result += leadingSpace + sortClasses(trimmed, options) + trailingSpace;
+			const sortedClasses = sortClasses(trimmed, options);
+
+			// Preserve newlines and indentation, but normalize horizontal spaces
+			// Don't add leading space if this is the first segment
+			const normalizedLeading = isFirstSegment
+				? ''
+				: leadingSpace.includes('\n')
+				? leadingSpace
+				: leadingSpace
+				? ' '
+				: '';
+			const normalizedTrailing = trailingSpace.includes('\n')
+				? trailingSpace
+				: trailingSpace
+				? ' '
+				: '';
+
+			result += normalizedLeading + sortedClasses + normalizedTrailing;
+			isFirstSegment = false;
 		} else {
 			result += staticText;
 		}
@@ -125,7 +162,7 @@ function sortExpressionClasses(
 		(match, singleContent, doubleContent, backContent) => {
 			const content = singleContent || doubleContent || backContent;
 			const quote = match[0];
-			
+
 			if (!content) return match;
 
 			// Check if this looks like Tailwind classes
@@ -138,18 +175,19 @@ function sortExpressionClasses(
 					/[a-z]+:/i.test(content) ||
 					/\[.*\]/.test(content));
 
-		if (isTailwindClasses) {
-			try {
-				// Trim leading/trailing whitespace before sorting
-				const trimmedContent = content.trim();
-				const sorted = sortClasses(trimmedContent, options);
-				// console.log(`[sortExpressionClasses] "${content}" -> "${sorted}"`);
-				return `${quote}${sorted}${quote}`;
-			} catch (e) {
-				// If sorting fails, return original
-				return match;
+			if (isTailwindClasses) {
+				try {
+					// Trim leading/trailing whitespace before sorting
+					const trimmedContent = content.trim();
+					const sorted = sortClasses(trimmedContent, options);
+					// console.log(`[sortExpressionClasses] "${content}" -> "${sorted}"`);
+					return `${quote}${sorted}${quote}`;
+				} catch (e) {
+					// If sorting fails, return original
+					return match;
+				}
 			}
-		}			return match;
+			return match;
 		}
 	);
 }
