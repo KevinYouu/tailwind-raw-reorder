@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<Alloy>
+	<!-- Titanium SDK / PurgeTSS XML View File -->
+
+	<!-- Test case 1: class attribute -->
+	<Window class="flex-1 bg-white">
+		<View class="p-4 rounded-lg shadow-md bg-gray-100">
+			<Label class="text-lg font-bold text-gray-900">Hello World</Label>
+		</View>
+	</Window>
+
+	<!-- Test case 2: classes attribute (PurgeTSS specific) -->
+	<View classes="mt-4 mb-2 flex items-center justify-between">
+		<Button classes="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">
+			Click Me
+		</Button>
+	</View>
+
+	<!-- Test case 3: icon attribute -->
+	<Button icon="text-xl text-gray-600 hover:text-gray-800 transition-colors duration-200">
+		<Label>Icon Button</Label>
+	</Button>
+
+	<!-- Test case 4: activeIcon attribute (should be matched by icon regex) -->
+	<TabGroup>
+		<Tab
+			icon="text-gray-400 text-sm"
+			activeIcon="text-blue-500 font-bold text-base">
+			<Label>Tab 1</Label>
+		</Tab>
+	</TabGroup>
+
+	<!-- Test case 5: Multiple attributes in one element -->
+	<View
+		class="w-full h-screen"
+		classes="flex flex-col items-center justify-center"
+		icon="text-2xl text-primary-500">
+		<Label class="mt-2 mb-4 text-center font-medium text-gray-700">
+			Multiple Attributes Test
+		</Label>
+	</View>
+
+	<!-- Test case 6: Single quotes -->
+	<View class='container mx-auto px-4 py-8'>
+		<Label classes='text-sm text-gray-500 italic'>Single quotes</Label>
+	</View>
+
+	<!-- Test case 7: Complex nested structure -->
+	<NavigationWindow>
+		<Window class="bg-gradient-to-br from-purple-500 to-pink-500">
+			<ScrollView class="flex-1 p-6">
+				<View classes="space-y-4 divide-y divide-gray-200">
+					<Label class="text-3xl font-extrabold text-white shadow-lg">
+						Title
+					</Label>
+					<View classes="pt-4 grid grid-cols-2 gap-4">
+						<Button icon="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center">
+							Action 1
+						</Button>
+						<Button icon="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center">
+							Action 2
+						</Button>
+					</View>
+				</View>
+			</ScrollView>
+		</Window>
+	</NavigationWindow>
+</Alloy>
