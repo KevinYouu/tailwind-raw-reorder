@@ -1,7 +1,5 @@
 # Tailwind Raw Reorder
 
-<!-- [![CircleCI](https://circleci.com/gh/heybourn/headwind.svg?style=svg)](https://circleci.com/gh/heybourn/headwind) -->
-
 Tailwind Raw Reorder is an opinionated Tailwind CSS class sorter for Visual Studio Code. It enforces consistent ordering of classes by parsing your code and reprinting class tags to follow a given order.
 
 > Tailwind Raw Reorder runs on save, will remove duplicate classes and can even sort entire workspaces. **Now works with Tailwind CSS v4+ without requiring configuration files!**
@@ -17,10 +15,6 @@ Tailwind Raw Reorder is an opinionated Tailwind CSS class sorter for Visual Stud
 - 🔧 **Simplified Configuration** - Removed complex config file dependencies
 
 ---
-
-<!-- **[Get it from the VS Code Marketplace →](https://marketplace.visualstudio.com/items?itemName=heybourn.headwind)** -->
-
-<!-- <img src="https://github.com/heybourn/headwind/blob/master/img/explainer.gif?raw=true" alt="Explainer" width="750px"> -->
 
 ## Usage
 
@@ -206,30 +200,6 @@ Tailwind Raw Reorder is open-source and contributions are always welcome. If you
 ### Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<!-- <a href="https://github.com/heybourn/headwind/graphs/contributors"><img src="https://opencollective.com/headwind/contributors.svg?width=890&button=false" /></a> -->
-
-<!-- ### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/headwind/contribute)] -->
-
-<!-- #### Individuals
-
-<a href="https://opencollective.com/headwind"><img src="https://opencollective.com/headwind/individuals.svg?width=890"></a> -->
-
-<!-- #### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/headwind/contribute)]
-
-<a href="https://opencollective.com/headwind/organization/0/website"><img src="https://opencollective.com/headwind/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/1/website"><img src="https://opencollective.com/headwind/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/2/website"><img src="https://opencollective.com/headwind/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/3/website"><img src="https://opencollective.com/headwind/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/4/website"><img src="https://opencollective.com/headwind/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/5/website"><img src="https://opencollective.com/headwind/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/6/website"><img src="https://opencollective.com/headwind/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/7/website"><img src="https://opencollective.com/headwind/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/8/website"><img src="https://opencollective.com/headwind/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/headwind/organization/9/website"><img src="https://opencollective.com/headwind/organization/9/avatar.svg"></a> -->
 
 ## 🌟 Features
 
