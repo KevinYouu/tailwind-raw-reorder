@@ -10,7 +10,7 @@ import pckge from '../package.json';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const langConfig = pckge.contributes.configuration[0].properties['tailwind-raw-reorder.classRegex'].default;
+const langConfig = pckge.contributes.configuration[0].properties['tailwind-raw-reorder-next.classRegex'].default;
 const tailwindConfig = getTailwindConfig();
 
 describe('Real File Test: example.complex.jsx', () => {

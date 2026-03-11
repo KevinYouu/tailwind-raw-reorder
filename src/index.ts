@@ -20,10 +20,10 @@ export { sortTemplateClasses } from './complex-expressions';
 
 const config = workspace.getConfiguration();
 const langConfig: { [key: string]: LangConfig | LangConfig[] } =
-	config.get('tailwind-raw-reorder.classRegex') || {};
+	config.get('tailwind-raw-reorder-next.classRegex') || {};
 const workspaceFolder: WorkspaceFolder | undefined =
 	(workspace.workspaceFolders || [])[0];
-const outputLogChannel = window.createOutputChannel('Tailwind Raw Reorder');
+const outputLogChannel = window.createOutputChannel('Tailwind Raw Reorder Next');
 
 export function activate(context: ExtensionContext): void {
 	// Extension now works with or without workspace folders
@@ -33,7 +33,7 @@ export function activate(context: ExtensionContext): void {
 	}
 
 	const disposable = commands.registerTextEditorCommand(
-		'tailwind-raw-reorder.sortTailwindClasses',
+		'tailwind-raw-reorder-next.sortTailwindClasses',
 		function (editor, edit) {
 			const editorText = editor.document.getText();
 			const editorLangId = editor.document.languageId;
@@ -73,12 +73,12 @@ export function activate(context: ExtensionContext): void {
 	);
 
 	const runOnProject = commands.registerCommand(
-		'tailwind-raw-reorder.sortTailwindClassesOnWorkspace',
+		'tailwind-raw-reorder-next.sortTailwindClassesOnWorkspace',
 		() => {
 			const workspaceFolders = workspace.workspaceFolders || [];
 			if (workspaceFolders.length > 0) {
 				window.showInformationMessage(
-					`Running Tailwind Raw Reorder on: ${workspaceFolders[0].uri.fsPath}`
+					`Running Tailwind Raw Reorder Next on: ${workspaceFolders[0].uri.fsPath}`
 				);
 
 				const rustyWindArgs = [
@@ -100,7 +100,7 @@ export function activate(context: ExtensionContext): void {
 					if (data && data.toString() !== '') {
 						console.log('rustywind stderr:\n', data.toString());
 						window.showErrorMessage(
-							`Tailwind Raw Reorder error: ${data.toString()}`
+							`Tailwind Raw Reorder Next error: ${data.toString()}`
 						);
 					}
 				});
@@ -113,7 +113,7 @@ export function activate(context: ExtensionContext): void {
 	);
 
 	const runOnSelection = commands.registerCommand(
-		'tailwind-raw-reorder.sortTailwindClassesOnSelection',
+		'tailwind-raw-reorder-next.sortTailwindClassesOnSelection',
 		() => {
 			const editor = window.activeTextEditor;
 			if (editor) {
@@ -162,10 +162,10 @@ export function activate(context: ExtensionContext): void {
 	context.subscriptions.push(runOnSelection);
 
 	// if runOnSave is enabled organize tailwind classes before saving
-	if (config.get('tailwind-raw-reorder.runOnSave')) {
+	if (config.get('tailwind-raw-reorder-next.runOnSave')) {
 		context.subscriptions.push(
 			workspace.onWillSaveTextDocument((_e) => {
-				commands.executeCommand('tailwind-raw-reorder.sortTailwindClasses');
+				commands.executeCommand('tailwind-raw-reorder-next.sortTailwindClasses');
 			})
 		);
 	}

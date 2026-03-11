@@ -18,7 +18,7 @@ export function cn(...inputs: ClassValue[]) {
 ## 实现位置
 
 ### 配置文件
-- **package.json**: `contributes.configuration[0].properties['tailwind-raw-reorder.classRegex'].default`
+- **package.json**: `contributes.configuration[0].properties['tailwind-raw-reorder-next.classRegex'].default`
   - `javascriptreact`: 第 3 个配置项
   - `typescript`: 第 3 个配置项
   - `typescriptreact`: 第 3 个配置项
@@ -105,7 +105,7 @@ export function cn(...inputs: ClassValue[]) {
 
 ```json
 {
-  "tailwind-raw-reorder.classRegex": {
+  "tailwind-raw-reorder-next.classRegex": {
     "typescriptreact": [
       // ... 现有配置
       "\\bclassNames\\s*\\([^)]*?[\"'`]([^\"'`]+)[\"'`]",

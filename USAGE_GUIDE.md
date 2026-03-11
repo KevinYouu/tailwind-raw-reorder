@@ -80,7 +80,7 @@ const classes = `flex items-center justify-center p-4 bg-white`;
 **配置：**
 ```json
 {
-  "tailwind-raw-reorder.runOnSave": true
+  "tailwind-raw-reorder-next.runOnSave": true
 }
 ```
 
@@ -91,19 +91,19 @@ const classes = `flex items-center justify-center p-4 bg-white`;
 
 **命令面板：**
 1. 打开命令面板 (`Cmd+Shift+P` / `Ctrl+Shift+P`)
-2. 输入 "Tailwind Raw Reorder: Sort Tailwind CSS Classes"
+2. 输入 "Tailwind Raw Reorder Next: Sort Tailwind CSS Classes"
 3. 回车执行
 
 ### 方法 3: 选中文本排序
 1. 选中包含类名的文本（不包括引号）
 2. 打开命令面板
-3. 执行 "Tailwind Raw Reorder: Sort Tailwind CSS Classes on current Selection"
+3. 执行 "Tailwind Raw Reorder Next: Sort Tailwind CSS Classes on current Selection"
 
 ### 方法 4: 整个工作区排序
 对整个项目的所有文件进行排序：
 
 1. 打开命令面板
-2. 执行 "Tailwind Raw Reorder: Sort Tailwind CSS Classes on Entire Workspace"
+2. 执行 "Tailwind Raw Reorder Next: Sort Tailwind CSS Classes on Entire Workspace"
 
 ## 示例对比
 
@@ -145,7 +145,7 @@ const classes = `flex items-center justify-center p-4 bg-white`;
 
 ```json
 {
-  "tailwind-raw-reorder.classRegex": {
+  "tailwind-raw-reorder-next.classRegex": {
     "html": "\\bclass\\s*=\\s*[\\\"\\']([_a-zA-Z0-9\\s\\-\\:\\/]+)[\\\"\\']",
     "javascriptreact": [
       [
@@ -217,5 +217,5 @@ import clsx from 'clsx';
 ---
 
 **需要帮助？** 
-- [GitHub Issues](https://github.com/KevinYouu/tailwind-raw-reorder/issues)
-- [文档](https://github.com/KevinYouu/tailwind-raw-reorder#readme)
+- [GitHub Issues](https://github.com/KevinYouu/tailwind-raw-reorder-next/issues)
+- [文档](https://github.com/KevinYouu/tailwind-raw-reorder-next#readme)

@@ -4,7 +4,7 @@ import pckge from '../package.json';
 
 const langConfig =
 	pckge.contributes.configuration[0].properties[
-		'tailwind-raw-reorder.classRegex'
+		'tailwind-raw-reorder-next.classRegex'
 	].default;
 
 describe('cn() Real User Cases - Debug', () => {
