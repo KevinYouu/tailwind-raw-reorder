@@ -1,5 +1,5 @@
 {
-    "name": "tailwind-raw-reorder-tw4",
+    "name": "tailwind-raw-reorder-next",
     "displayName": "Tailwind Raw Reorder Next",
     "description": "A high-performance Tailwind CSS class organizer for VS Code, redesigned with TypeScript and fully supporting Tailwind CSS v4's engine-less configuration.",
     "keywords": [
